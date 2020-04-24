@@ -11,31 +11,47 @@ class MessageBoardController{
         // var_dump($result);
     }
     public function get($id){
-        $result = $this->model->get($id);
-        return $result;
+        if(empty($id)){
+            print("請填寫完整!");
+        }else{
+            $result = $this->model->get($id);
+            return $result;
+        }
     }
     public function add($user, $content){
-        $result = $this->model->add($user, $content);
-        if ($result){
-            print("新增 成功!");
+        if(empty($user) || empty($content)){
+            print("請填寫完整!");
         }else{
-            print("新增 失敗!");
+            $result = $this->model->add($user, $content);
+            if ($result){
+                print("新增 成功!");
+            }else{
+                print("新增 失敗!");
+            }
         }
     }
     public function edit($id, $user, $content){
-        $result = $this->model->edit($id, $user, $content);
-        if ($result){
-            print("修改 成功!");
+        if(empty($id) || empty($user) || empty($content)){
+            print("請填寫完整!");
         }else{
-            print("修改 失敗!");
+            $result = $this->model->edit($id, $user, $content);
+            if ($result){
+                print("修改 成功!");
+            }else{
+                print("修改 失敗!");
+            }
         }
     }
     public function remove($id){
-        $result = $this->model->remove($id);
-        if ($result){
-            print("刪除 成功!");
+        if(empty($id) || empty($user) || empty($content)){
+            print("請填寫完整!");
         }else{
-            print("刪除 失敗!");
+            $result = $this->model->remove($id);
+            if ($result){
+                print("刪除 成功!");
+            }else{
+                print("刪除 失敗!");
+            }
         }
     }
     public function clean(){
