@@ -8,7 +8,6 @@ class MessageBoardController{
     public function show(){
         $result = $this->model->show();
         return $result;
-        // var_dump($result);
     }
     public function get($id){
         if(empty($id)){
@@ -24,7 +23,7 @@ class MessageBoardController{
         }else{
             $result = $this->model->add($user, $content);
             if ($result){
-                print("新增 成功!");
+                print("新增 [ $result 筆 ] 成功!");
             }else{
                 print("新增 失敗!");
             }
@@ -36,19 +35,19 @@ class MessageBoardController{
         }else{
             $result = $this->model->edit($id, $user, $content);
             if ($result){
-                print("修改 成功!");
+                print("修改 [ $result 筆 ] 成功!");
             }else{
                 print("修改 失敗!");
             }
         }
     }
     public function remove($id){
-        if(empty($id) || empty($user) || empty($content)){
+        if(empty($id)){
             print("請填寫完整!");
         }else{
             $result = $this->model->remove($id);
             if ($result){
-                print("刪除 成功!");
+                print("刪除 [ $result 筆 ] 成功!");
             }else{
                 print("刪除 失敗!");
             }
@@ -56,8 +55,8 @@ class MessageBoardController{
     }
     public function clean(){
         $result = $this->model->clean();
-        if ($result){
-            print("清空 成功!");
+        if ($result >= 0){
+            print("清空 [ $result 筆 ] 成功!");
         }else{
             print("清空 失敗!");
         }
