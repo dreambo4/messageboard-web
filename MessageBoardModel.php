@@ -1,5 +1,6 @@
 <?php
 include 'Env.php';
+
 class MessageBoardModel{
     
     private $conn;
@@ -31,7 +32,7 @@ class MessageBoardModel{
 
     public function get($id)
     {
-        $sql = sprintf('SELECT `id`, `user`, `content` FROM `messages` where `id`="%s";', $id);
+        $sql = sprintf('SELECT `id`, `user`, `content` FROM `messages` where `id`=%d;', $id);
         $result = mysqli_query($this->conn, $sql);
 
         if (mysqli_affected_rows($this->conn) == 1) {
@@ -43,7 +44,7 @@ class MessageBoardModel{
 
     public function add($user, $content)
     {
-        $sql = sprintf('INSERT INTO `messages`(`user`, `content`) VALUES ("%s", "%s");', $user, $content);
+        $sql = sprintf('INSERT INTO `messages`(`user`, `content`) VALUES (\'%s\', \'%s\');', $user, $content);
         $result = mysqli_query($this->conn, $sql);
 
         if (mysqli_affected_rows($this->conn) == 1) {
@@ -55,7 +56,7 @@ class MessageBoardModel{
 
     public function edit($id, $user, $content)
     {
-        $sql = sprintf('UPDATE `messages` SET `user`="%s", `content`="%s" WHERE `id`=%d;', $user, $content, $id);
+        $sql = sprintf('UPDATE `messages` SET `user`=\'%s\', `content`=\'%s\' WHERE `id`=%d;', $user, $content, $id);
         $result = mysqli_query($this->conn, $sql);
 
         if (mysqli_affected_rows($this->conn) == 1) {
