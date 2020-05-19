@@ -1,8 +1,8 @@
 <?php
 include 'MessageBoardModel.php';
+
 class MessageBoardController
 {
-    
     private $model;
 
     public function __construct()
@@ -13,6 +13,7 @@ class MessageBoardController
     public function show()
     {
         $result = $this->model->show();
+
         return $result;
     }
 
@@ -22,6 +23,7 @@ class MessageBoardController
             return "請填寫完整!";
         } else {
             $result = $this->model->get($id);
+            
             return $result;
         }
     }
