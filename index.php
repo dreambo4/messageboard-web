@@ -1,8 +1,12 @@
 <?php
 include 'MessageBoardController.php';
 
+/** @var \MessageBoardController 一個留言板的控制器。 */
 $controller = new MessageBoardController();
 
+/**
+ * 依據使用者的操作，使用相對應的控制器函式。
+ */
 if (isset($_POST['add'])) {
     $user = $_POST['input-user'];
     $content = $_POST['input-content'];
@@ -21,14 +25,13 @@ if (isset($_POST['add'])) {
     $type = str_replace('"', '', explode('=', $q[0]));
     $id = explode('=', $q[1]);
 
-    if ($type[1] == 'get') { //編輯前，先取得內容
+    if ($type[1] == 'get') {
         $result = $controller->get($id[1]);
-    } elseif ($type[1] == 'remove') { //刪除
+    } elseif ($type[1] == 'remove') {
         $result = $controller->remove($id[1]);
     }
 }
 
-// 決定下方的 form 是修改或新增
 if (isset($type) && $type[1] == 'get') {
     $inputUser = $result[0]['user'];
     $inputContent = $result[0]['content'];
