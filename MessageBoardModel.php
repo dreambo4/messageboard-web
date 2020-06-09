@@ -1,10 +1,23 @@
 <?php
 include 'Env.php';
 
+/**
+ * 存取留言板資料的物件
+ * 
+ * 提供顯示、取得、新增、修改、刪除、清空資料庫內容的函式
+ */
 class MessageBoardModel{
     
+    /** @var \mysqli 連接資料庫的物件 */
     private $conn;
 
+    /**
+     * 連接資料庫
+     * 
+     * 若連接錯誤，顯示錯誤訊息並中斷程式
+     * 
+     * @return void
+     */
     function __construct()
     {
         $env = Env::$env;
@@ -18,6 +31,11 @@ class MessageBoardModel{
         $this->conn->set_charset($env['DB_CHARSET']);
     }
     
+    /**
+     * 取得資料庫中所有留言
+     * 
+     * @return array|bool
+     */
     public function show()
     {
         $sql = sprintf('SELECT `id`, `user`, `content`, `time` FROM `messages`;');
@@ -30,6 +48,11 @@ class MessageBoardModel{
         }
     }
 
+    /**
+     * 以留言編號取得留言的編號、姓名與內容
+     * 
+     * @return array|bool
+     */
     public function get($id)
     {
         $sql = sprintf('SELECT `id`, `user`, `content` FROM `messages` where `id`=%d;', $id);
@@ -42,6 +65,14 @@ class MessageBoardModel{
         }
     }
 
+    /**
+     * 新增留言
+     * 
+     * @param string    $user       留言者姓名
+     * @param string    $content    留言內容
+     * 
+     * @return int|bool
+     */
     public function add($user, $content)
     {
         $sql = sprintf('INSERT INTO `messages`(`user`, `content`) VALUES (\'%s\', \'%s\');', $user, $content);
@@ -54,6 +85,15 @@ class MessageBoardModel{
         }
     }
 
+    /**
+     * 編輯留言
+     * 
+     * @param int       $id         留言編號
+     * @param string    $user       留言者姓名
+     * @param string    $content    留言內容
+     * 
+     * @return int|bool
+     */
     public function edit($id, $user, $content)
     {
         $sql = sprintf('UPDATE `messages` SET `user`=\'%s\', `content`=\'%s\' WHERE `id`=%d;', $user, $content, $id);
@@ -66,6 +106,13 @@ class MessageBoardModel{
         }
     }
 
+    /**
+     * 刪除留言
+     * 
+     * @param int   $id 留言編號
+     * 
+     * @return int|bool
+     */
     public function remove($id)
     {
         $sql = sprintf('DELETE FROM `messages` WHERE `id`=%d;', $id);
@@ -78,6 +125,11 @@ class MessageBoardModel{
         }
     }
 
+    /**
+     * 清空所有留言
+     * 
+     * @return int|bool
+     */
     public function clean()
     {
         $sql = sprintf('DELETE FROM `messages` WHERE true;');
@@ -90,6 +142,11 @@ class MessageBoardModel{
         }
     }   
 
+    /**
+     * 中斷資料庫連線
+     * 
+     * @return void
+     */
     function __destruct()
     {
         $this->conn->close();
