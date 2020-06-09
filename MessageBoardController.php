@@ -2,17 +2,17 @@
 include 'MessageBoardModel.php';
 
 /**
- * 留言板的控制器。
+ * 留言板的控制器
  * 
- * 提供顯示、取得、新增、修改、刪除、清空的函式。
+ * 提供顯示、取得、新增、修改、刪除、清空的函式
  */
 class MessageBoardController
 {
-    /** @var \MessageBoardModel 這是存取資料庫的物件。 */
+    /** @var \MessageBoardModel 這是存取資料庫的物件 */
     private $model;
 
     /**
-     * 實體化 MessageBoardModel 物件。
+     * 實體化 MessageBoardModel 物件
      * 
      * @return void
      */
@@ -22,9 +22,9 @@ class MessageBoardController
     }
     
     /**
-     * 取得所有留言。
+     * 取得所有留言
      * 
-     * @return string[][]
+     * @return array
      */
     public function show()
     {
@@ -34,13 +34,13 @@ class MessageBoardController
     }
 
     /**
-     * 以留言編號取得留言的編號、姓名與內容。
+     * 以留言編號取得留言的編號、姓名與內容
      * 
-     * 若無留言編號，回傳錯誤訊息；有留言編號，回傳留言的編號、姓名與內容。
+     * 若無留言編號，回傳錯誤訊息；有留言編號，回傳留言的編號、姓名與內容
      * 
-     * @param int   $id 留言編號。
+     * @param int   $id 留言編號
      * 
-     * @return string|string[][]
+     * @return string|array
      */
     public function get($id)
     {
@@ -54,12 +54,12 @@ class MessageBoardController
     }
 
     /**
-     * 新增留言。
+     * 新增留言
      * 
-     * 若填寫不完整，回傳錯誤訊息；填寫完整且新增成功，回傳成功訊息；新增失敗，回傳錯誤訊息。
+     * 若填寫不完整，回傳錯誤訊息；填寫完整且新增成功，回傳成功訊息；新增失敗，回傳錯誤訊息
      * 
-     * @param string    $user      留言者姓名。
-     * @param string    $content   留言內容。
+     * @param string    $user      留言者姓名
+     * @param string    $content   留言內容
      * 
      * @return string
      */
@@ -78,13 +78,13 @@ class MessageBoardController
     }
 
     /**
-     * 編輯留言。
+     * 編輯留言
      * 
-     * 若填寫不完整，回傳錯誤訊息；填寫完整且修改成功，回傳成功訊息；修改失敗，回傳錯誤訊息。
+     * 若填寫不完整，回傳錯誤訊息；填寫完整且修改成功，回傳成功訊息；修改失敗，回傳錯誤訊息
      * 
-     * @param int       $id         留言編號。
-     * @param string    $user       留言者姓名。
-     * @param string    $content    留言內容。
+     * @param int       $id         留言編號
+     * @param string    $user       留言者姓名
+     * @param string    $content    留言內容
      * 
      * @return string
      */
@@ -103,11 +103,11 @@ class MessageBoardController
     }
 
     /**
-     * 刪除留言。
+     * 刪除留言
      * 
-     * 若填寫不完整，回傳錯誤訊息；填寫完整且刪除成功，回傳成功訊息；刪除失敗，回傳錯誤訊息。
+     * 若填寫不完整，回傳錯誤訊息；填寫完整且刪除成功，回傳成功訊息；刪除失敗，回傳錯誤訊息
      * 
-     * @param int   $id 留言編號。
+     * @param int   $id 留言編號
      * 
      * @return string
      */
@@ -126,9 +126,9 @@ class MessageBoardController
     }
 
     /**
-     * 清空所有留言。
+     * 清空所有留言
      * 
-     * 清空失敗，回傳錯誤訊息；清空成功，回傳成功訊息。
+     * 清空失敗，回傳錯誤訊息；清空成功，回傳成功訊息
      * 
      * @return string
      */

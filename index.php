@@ -1,11 +1,11 @@
 <?php
 include 'MessageBoardController.php';
 
-/** @var \MessageBoardController 一個留言板的控制器。 */
+/** @var \MessageBoardController 一個留言板的控制器 */
 $controller = new MessageBoardController();
 
 /**
- * 依據使用者的操作，使用相對應的控制器函式。
+ * 依據使用者的操作，使用相對應的控制器函式
  */
 if (isset($_POST['add'])) {
     $user = $_POST['input-user'];

@@ -2,19 +2,19 @@
 include 'Env.php';
 
 /**
- * 存取留言板資料的物件。
+ * 存取留言板資料的物件
  * 
- * 提供顯示、取得、新增、修改、刪除、清空資料庫內容的函式。
+ * 提供顯示、取得、新增、修改、刪除、清空資料庫內容的函式
  */
 class MessageBoardModel{
     
-    /** @var mysqli 連接資料庫的物件。 */
+    /** @var \mysqli 連接資料庫的物件 */
     private $conn;
 
     /**
-     * 連接資料庫。
+     * 連接資料庫
      * 
-     * 若連接錯誤，顯示錯誤訊息並中斷程式。
+     * 若連接錯誤，顯示錯誤訊息並中斷程式
      * 
      * @return void
      */
@@ -32,9 +32,9 @@ class MessageBoardModel{
     }
     
     /**
-     * 取得資料庫中所有留言。
+     * 取得資料庫中所有留言
      * 
-     * @return string[][]|bool
+     * @return array|bool
      */
     public function show()
     {
@@ -49,9 +49,9 @@ class MessageBoardModel{
     }
 
     /**
-     * 以留言編號取得留言的編號、姓名與內容。
+     * 以留言編號取得留言的編號、姓名與內容
      * 
-     * @return string[][]|bool
+     * @return array|bool
      */
     public function get($id)
     {
@@ -66,10 +66,10 @@ class MessageBoardModel{
     }
 
     /**
-     * 新增留言。
+     * 新增留言
      * 
-     * @param string    $user       留言者姓名。
-     * @param string    $content    留言內容。
+     * @param string    $user       留言者姓名
+     * @param string    $content    留言內容
      * 
      * @return int|bool
      */
@@ -86,11 +86,11 @@ class MessageBoardModel{
     }
 
     /**
-     * 編輯留言。
+     * 編輯留言
      * 
-     * @param int       $id         留言編號。
-     * @param string    $user       留言者姓名。
-     * @param string    $content    留言內容。
+     * @param int       $id         留言編號
+     * @param string    $user       留言者姓名
+     * @param string    $content    留言內容
      * 
      * @return int|bool
      */
@@ -107,9 +107,9 @@ class MessageBoardModel{
     }
 
     /**
-     * 刪除留言。
+     * 刪除留言
      * 
-     * @param int   $id 留言編號。
+     * @param int   $id 留言編號
      * 
      * @return int|bool
      */
@@ -126,7 +126,7 @@ class MessageBoardModel{
     }
 
     /**
-     * 清空所有留言。
+     * 清空所有留言
      * 
      * @return int|bool
      */
@@ -143,7 +143,7 @@ class MessageBoardModel{
     }   
 
     /**
-     * 中斷資料庫連線。
+     * 中斷資料庫連線
      * 
      * @return void
      */
