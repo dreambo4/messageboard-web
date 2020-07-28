@@ -27,8 +27,18 @@ class MessageBoardController extends CI_Controller
      */
     public function index()
 	{
+		$this->load->view('message_board.php');
+    }
+
+    /**
+     * 列出所有留言
+     *
+     * @return void
+     */
+    public function list () {
         $alertMsg = "";
         $messages = $this->show();
+        $success = count($messages) > 0 ? 1 : -1;
         $formContent = [
             'user' => '',
             'content' => '',
@@ -39,9 +49,12 @@ class MessageBoardController extends CI_Controller
             'alertMsg' => $alertMsg,
             'messages' => $messages,
             'formContent' => $formContent,
+            'success' => $success,
         ];
-		$this->load->view('message_board.php', $data);
-	}
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($data));
+    }
 
     /**
      * 取得所有留言
@@ -63,16 +76,12 @@ class MessageBoardController extends CI_Controller
     public function get()
     {
         $id = base64_decode($this->input->get('q'));
-        $formContent = [
-            'user' => '',
-            'content' => '',
-            'id' => '',
-            'action' => 'add',
-        ];
         if (empty($id)) {
             $alertMsg = "請填寫完整!";
+            $success = -2;
         } else {
             $alertMsg = "修改完，記得送出！";
+            $success = 1;
             $result = $this->MessageBoardModel->get($id);
             if (count($result)) {
                 $formContent = [
@@ -83,16 +92,18 @@ class MessageBoardController extends CI_Controller
                 ];
             } else {
                 $alertMsg = "留言不存在！";
+                $success = -1;
             }
         }
 
-        $messages = $this->show();
         $data = [
+            'success' => $success,
             'alertMsg' => $alertMsg,
-            'messages' => $messages,
-            'formContent' => $formContent,
+            'formContent' => isset($formContent) ? $formContent : [],
         ];
-		$this->load->view('message_board.php', $data);
+		$this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($data));
     }
 
     /**
@@ -105,28 +116,27 @@ class MessageBoardController extends CI_Controller
         $user = $this->input->post('input-user');
         $content = $this->input->post('input-content');
         if (empty($user) || empty($content)) {
-            $alertMsg = "請填寫完整!";
+            $alertMsg = "請填寫完整! $user $content";
+            $success = -2;
         } else {
-            $result = $this->MessageBoardModel->add($user, $content);
-            if ($result > 0) {
-                $alertMsg = "新增 [ $result 筆 ] 成功!";
+            $messageId = $this->MessageBoardModel->add($user, $content);
+            if ($messageId > 0) {
+                $alertMsg = "新增 [ 1 筆 ] 成功!";
+                $success = 1;
+                $result = $this->MessageBoardModel->get($messageId);
             } else {
                 $alertMsg = "新增 失敗!";
+                $success = -1;
             }
         }
-        $messages = $this->show();
-        $formContent = [
-            'user' => '',
-            'content' => '',
-            'id' => '',
-            'action' => 'add',
-        ];
         $data = [
             'alertMsg' => $alertMsg,
-            'messages' => $messages,
-            'formContent' => $formContent,
+            'message_by_id' => (isset($result) ? $result : []),
+            'success' => $success,
         ];
-		$this->load->view('message_board.php', $data);
+		$this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($data));
     }
 
     /**
@@ -141,27 +151,26 @@ class MessageBoardController extends CI_Controller
         $content = $this->input->post('input-content');
         if (empty($id) || empty($user) || empty($content)) {
             $alertMsg = "請填寫完整!";
+            $success = -2;
         } else {
             $result = $this->MessageBoardModel->edit($id, $user, $content);
             if ($result > 0) {
                 $alertMsg = "修改 [ $result 筆 ] 成功!";
+                $success = 1;
+                $editedMsg = $this->MessageBoardModel->get($id);
             } else {
                 $alertMsg = "修改 失敗!";
+                $success = -1;
             }
         }
-        $messages = $this->show();
-        $formContent = [
-            'user' => '',
-            'content' => '',
-            'id' => '',
-            'action' => 'add',
-        ];
         $data = [
+            'success' => $success,
+            'message_by_id' => (isset($editedMsg) ? $editedMsg : []),
             'alertMsg' => $alertMsg,
-            'messages' => $messages,
-            'formContent' => $formContent,
         ];
-        $this->load->view('message_board.php', $data);
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($data));
     }
 
     /**
@@ -174,27 +183,25 @@ class MessageBoardController extends CI_Controller
         $id = base64_decode($this->input->get('q'));
         if (empty($id)) {
             $alertMsg = "請填寫完整!";
+            $success = -2;
         } else {
             $result = $this->MessageBoardModel->remove($id);
             if ($result > 0) {
                 $alertMsg = "刪除 [ $result 筆 ] 成功!";
+                $success = 1;
             } else {
                 $alertMsg = "刪除 失敗!";
+                $success = -1;
             }
         }
-        $messages = $this->show();
-        $formContent = [
-            'user' => '',
-            'content' => '',
-            'id' => '',
-            'action' => 'add',
-        ];
+
         $data = [
+            'success' => $success,
             'alertMsg' => $alertMsg,
-            'messages' => $messages,
-            'formContent' => $formContent,
         ];
-		$this->load->view('message_board.php', $data);
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($data));
     }
 
     /**
@@ -207,21 +214,17 @@ class MessageBoardController extends CI_Controller
         $result = $this->MessageBoardModel->clean();
         if ($result >= 0) {
             $alertMsg = "清空 [ $result 筆 ] 成功!";
+            $success = 1;
         } else {
             $alertMsg = "清空 失敗!";
+            $success = -1;
         }
-        $messages = $this->show();
-        $formContent = [
-            'user' => '',
-            'content' => '',
-            'id' => '',
-            'action' => 'add',
-        ];
         $data = [
             'alertMsg' => $alertMsg,
-            'messages' => $messages,
-            'formContent' => $formContent,
+            'success' => $success,
         ];
-		$this->load->view('message_board.php', $data);
+        $this->output
+            ->set_content_type('application/json')
+            ->set_output(json_encode($data));
     }
 }

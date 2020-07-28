@@ -3,45 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="http://yckart.github.io/jquery.base64.js/jquery.base64.js"></script>
+    <script type="text/javascript" src="<?= base_url('assets/js/messageBoard.js') ?>" charset="utf-8"></script>
     <title>留言板</title>
 </head>
 <body>
-    <div><?= $alertMsg ?></div>
+    <div id="alert_message"></div>
     <h1>留言板</h1>
-    <button type="submit" form="inputForm" formmethod="post" formaction="<?= base_url('index.php/MessageBoardController/clean') ?>">清空</button>
+    <button type="submit" id="clean">清空</button>
     <hr>
-    <?php
-    if (count($messages)) {
-        foreach ($messages as $row) {?>
-            <div name="msg">
-                <div name="user"><h3><b><?= $row['user'] ?></b></h3></div>
-                <div name="content"><?= $row['content'] ?></div>
-                <div name="time"><?= $row['time'] ?></div>
-                <a href="<?= base_url('index.php/MessageBoardController/get/?q=') . base64_encode($row['id']) ?>"><button type="submit" name="get">編輯</button></a>
-                <a href="<?= base_url('index.php/MessageBoardController/remove/?q=') . base64_encode($row['id']) ?>"><button type="submit" name="remove">刪除</button></a>
-                <hr>
-            </div>
-            <!-- msg end -->
-    <?php
-        }
-    } else {
-    ?>
-        <div>[目前沒有留言]</div>
-        <hr>
-    <?php
-    }
-    ?>
+    <div id="messages">
+    </div>
+    <!-- messages end -->
 
     <div>
         <form action="#" method="post" id="inputForm">
             <label for="input-user">姓名:</label>
-            <input name="input-user" value="<?= $formContent['user'] ?>" />
+            <input id="input-user" value=""/>
             <label for="input-content">留言:</label>
-            <textarea name="input-content"><?= $formContent['content'] ?></textarea>
-            <input name="id" type="hidden" value="<?= $formContent['id'] ?>"/>
+            <textarea id="input-content"></textarea>
+            <input id="id" type="hidden" value=""/>
         </form>
-        <button type="submit" form="inputForm" formmethod="post" formaction="<?= base_url('index.php/MessageBoardController/' . $formContent['action']) ?>">送出</button>
-        <button type="submit" form="inputForm" formmethod="post" formaction="<?= base_url('index.php/MessageBoardController/index') ?>">取消</button>
+        <button id="submit_button" name="">送出</button>
+        <button id="cancle" type="submit" onclick="initInput()">取消</button>
     </div>
 </body>
 </html>

@@ -40,7 +40,7 @@ class MessageBoardModel extends CI_Model {
      */
     public function get($id)
     {
-        $this->db->select('id, user, content');
+        $this->db->select('id, user, content, time');
         $this->db->where('id', $id);
         $result = $this->db->get('messages');
 
@@ -61,7 +61,7 @@ class MessageBoardModel extends CI_Model {
         $this->db->set('content', $content);
         $result = $this->db->insert('messages');
 
-        return $this->db->affected_rows();
+        return $this->db->insert_id();
     }
 
     /**
